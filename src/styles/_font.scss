@@ -1,0 +1,36 @@
+@use "sass:meta";
+@use "sass:map";
+
+$family-map: (
+		Noto: 'Noto Sans SC',
+		Zcool: 'ZCOOL KuaiLe'
+);
+
+$f-family-Noto: 'Noto Sans SC', sans-serif;
+$f-family-Zcool: 'ZCOOL KuaiLe', sans-serif;
+
+$f-family-type: Noto, Zcool;
+$f-weight-type: 100, 200, 300, 400, 500, 600, 700, 800, 900;
+$f-size-type: 14, 16, 18, 20, 22;
+
+.f-Noto {
+	font-family: $f-family-Noto;
+}
+
+.f-Zcool {
+	font-family: $f-family-Zcool;
+}
+
+@each $family, $font-family in $family-map {
+	@each $size in $f-size-type {
+		@each $weight in $f-weight-type {
+			.f-#{$family}-#{$size}-#{$weight} {
+				font: {
+					family: $font-family, sans-serif;
+					size: #{$size}px;
+					weight: $weight;
+				}
+			}
+		}
+	}
+}
