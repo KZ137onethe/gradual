@@ -5,6 +5,7 @@ import {isObject, isString} from "lodash-es";
 import {joinTimestamp, formatRequestDate, setObjToUrlParams} from './helps.ts'
 import {ElNotification} from "element-plus";
 import {checkStatus} from "@/axios/checkStatus.ts";
+import axios from "axios";
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
   authenticationScheme?: string
@@ -161,6 +162,10 @@ export const transform: AxiosTransform = {
     let errMessage = ''
     
     try {
+      // 请求被取消，可以通过这个方法来判断
+      if(axios.isCancel(error)) {
+        errMessage = '请求被取消'
+      }
       if( code === 'ECONNABORTED' || message.includes('timeout') !== -1) {
         errMessage = '接口请求超时，请刷新页面重试！'
       }

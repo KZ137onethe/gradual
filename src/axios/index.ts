@@ -6,6 +6,7 @@ import {ContentType} from "@/utils/http.ts";
 
 const urlPrefix = '/server_api'
 
+// 创建axios实例
 function createAxios(opt?: Partial<CreateAxiosOptions>) {
     return new VAxios(
       merge(
@@ -38,6 +39,8 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
             urlPrefix: '',
             // 是否加入时间戳
             joinTime: true,
+            // 是否忽略 取消请求
+            ignoreCancel: true
             // TODO: 其他参数，比如：忽略重复请求，是否携带token，重试机制等
           },
           withCredentials: false,

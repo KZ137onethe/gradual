@@ -1,3 +1,5 @@
+import {GenericAbortSignal} from "axios";
+
 export type CreateAxiosOptions = any
 
 // 消息类型
@@ -16,6 +18,11 @@ export enum MessageTitle {
 }
 
 export type Recordable<T = any> = Record<string, T>
+
+export interface pendingMapValueType {
+  controller: AbortController,
+  signal: GenericAbortSignal
+}
 
 export enum RequestEnum {
   GET = 'GET',
