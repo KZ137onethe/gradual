@@ -1,4 +1,4 @@
-import {GenericAbortSignal} from "axios";
+import { AxiosRequestConfig, GenericAbortSignal } from "axios"
 
 export type CreateAxiosOptions = any
 
@@ -31,6 +31,7 @@ export enum RequestEnum {
   DELETE = 'DELETE'
 }
 
+export type RequestConfig = AxiosRequestConfig<any> & { requestOptions?: object }
 export interface RequestOptions {
   // 是否需要将请求参数拼接到url
   joinParamsToUrl?: boolean

@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
-import type { CreateAxiosOptions, RequestOptions, Result } from "./type.ts"
+import type { CreateAxiosOptions, RequestConfig, RequestOptions, Result } from "./type.ts"
 import { isFunction, cloneDeep, merge } from "lodash-es"
 import { AxiosCanceler } from "@/axios/axiosCancel.ts"
 
@@ -103,10 +103,10 @@ export class VAxios {
 
   // 自定义请求，会使用transform的钩子
   request<T = any>(
-    config: AxiosRequestConfig & { requestOptions?: object },
+    config: AxiosRequestConfig,
     options?: RequestOptions,
   ): Promise<T> {
-    let conf = cloneDeep(config)
+    let conf = cloneDeep(config) as RequestConfig
     const transform = this.getTransform()
     const requestOptions = this.getRequestOptions()
 
