@@ -19,6 +19,8 @@ const getSentence = ({c = undefined, encode = undefined}: { c?: 'b' | 'f', encod
       c,
       encode
     },
+  }, {
+    successMessageMode: 'notification',
   })
 }
 

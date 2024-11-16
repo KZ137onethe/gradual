@@ -40,7 +40,9 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
             // 是否加入时间戳
             joinTime: true,
             // 是否忽略 取消请求
-            ignoreCancel: true
+            ignoreCancel: true,
+            // 取消请求的AbortController对象
+            controller: AbortController
             // TODO: 其他参数，比如：忽略重复请求，是否携带token，重试机制等
           },
           withCredentials: false,

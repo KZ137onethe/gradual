@@ -1,5 +1,5 @@
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-import type { Result, RequestOptions, Recordable, RequestConfig } from "./type.ts"
+import type { Result, RequestOptions, Recordable, ConfigType } from "./type.ts"
 import { ResultEnum, RequestEnum, MessageTitle } from "./type.ts"
 import { isObject, isString } from "lodash-es"
 import { joinTimestamp, formatRequestDate, setObjToUrlParams } from "./helps.ts"
@@ -21,13 +21,13 @@ export abstract class AxiosTransform {
   // 请求失败后的处理
   requestCatchHook?: (e: Error, options: RequestOptions) => Promise<any>
   // 请求之前的拦截器
-  requestInterceptors?: (config: AxiosRequestConfig, options: CreateAxiosOptions) => AxiosRequestConfig
+  requestInterceptors?: (config: AxiosRequestConfig, options?: CreateAxiosOptions) => AxiosRequestConfig
   // 请求之后的拦截器
   responseInterceptors?: (res: AxiosResponse<any>) => AxiosResponse<any>
   // 请求之前的拦截器错误处理
   requestInterceptorsCatch?: (error: AxiosError) => void
   // 请求之后的拦截器错误处理
-  responseInterceptorsCatch?: (error: AxiosError) => void
+  responseInterceptorsCatch?: (error: AxiosError<Result, any> & { config: ConfigType }) => void
 }
 
 // 数据处理器
@@ -76,7 +76,7 @@ export const transform: AxiosTransform = {
     return config
   },
   // 处理请求数据。如果数据不是预期格式，可直接抛出错误
-  transformRequestHook: (res: AxiosResponse<Result, RequestConfig>, options: RequestOptions) => {
+  transformRequestHook: (res: AxiosResponse<Result, AxiosRequestConfig & ConfigType>, options: RequestOptions) => {
     const { isTransformResponse, isReturnNativeResponse } = options
     // 是否返回原生响应头 比如：需要获取响应头时使用该属性
     if (isReturnNativeResponse) {
@@ -88,6 +88,7 @@ export const transform: AxiosTransform = {
       return res.data
     }
     const { data } = res
+    console.log(data)
     if (!data) {
       throw new Error("请求出错，请稍后重试")
     }
@@ -98,6 +99,7 @@ export const transform: AxiosTransform = {
     if (isObject(data)) {
       hasSuccess = data && Reflect.has(data, "code") && (code === ResultEnum.SUCCESS || code === 200)
     }
+    console.log(hasSuccess)
     if (hasSuccess) {
       if (type === 'success' && tipInfo && options.successMessageMode) {
         // 信息成功提示
@@ -146,23 +148,23 @@ export const transform: AxiosTransform = {
     throw new Error("请求出错，请稍候重试")
   },
   // 请求拦截器处理
-  requestInterceptors: (config: Recordable, options: CreateAxiosOptions) => {
-    
+  requestInterceptors: (config: Recordable<any>, options?: CreateAxiosOptions) => {
+    if(!options) return config
     // 请求之前处理config
     // TODO: 这里可以处理 token 等配置
-    return config as unknown as AxiosRequestConfig
+    return config as AxiosRequestConfig
   },
   // 响应拦截器处理
   responseInterceptors: (res: AxiosResponse<any>) => {
     return res
   },
   /**
-   * 响应错误处理
-   * TODO: 高清axios的错误信息
+   * 响应错误拦截器处理
+   * TODO: 搞清axios的错误信息
    * @param error
    */
-  responseInterceptorsCatch: (error) => {
-    const { response, code, message, config } = error || {}
+  responseInterceptorsCatch: (error: AxiosError<Result, any> & { config: ConfigType }) => {
+    const { response, code, message, config } = error
     const errorMessageMode = config?.requestOptions?.errorMessageMode || "none"
     const msg: string = response?.data?.message ?? ""
     const err: string = error?.toString?.() ?? ""
@@ -173,7 +175,7 @@ export const transform: AxiosTransform = {
       if (axios.isCancel(error)) {
         errMessage = "请求被取消"
       }
-      if (code === "ECONNABORTED" || message.includes("timeout") !== -1) {
+      if (code === "ECONNABORTED" || message.includes("timeout")) {
         errMessage = "接口请求超时，请刷新页面重试！"
       }
       if (err?.includes("Network Error")) {
@@ -201,7 +203,7 @@ export const transform: AxiosTransform = {
       throw new Error(error)
     }
     
-    checkStatus(response?.status, msg, errorMessageMode)
+    checkStatus(response!.status, msg, errorMessageMode)
     // TODO: 可以添加一些机制，比如：自动重试机制等等
     return Promise.reject(error)
   },

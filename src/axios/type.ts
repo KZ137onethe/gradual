@@ -31,7 +31,10 @@ export enum RequestEnum {
   DELETE = 'DELETE'
 }
 
-export type RequestConfig = AxiosRequestConfig<any> & { requestOptions?: object }
+export interface ConfigType {
+  requestOptions: Record<string, any>
+}
+
 export interface RequestOptions {
   // 是否需要将请求参数拼接到url
   joinParamsToUrl?: boolean
@@ -51,6 +54,8 @@ export interface RequestOptions {
   errorMessageMode?: ErrorMessageMode
   // 成功消息提示类型
   successMessageMode?: SuccessMessageMode
+  // 取消请求的AbortController对象
+  controller?: AbortController
   // 是否添加时间戳
   joinTime?: boolean
   ignoreCancelToken?: boolean

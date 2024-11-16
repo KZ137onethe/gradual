@@ -1,22 +1,23 @@
-import {AxiosRequestConfig} from 'axios'
-import {isFunction} from "lodash-es";
-import {pendingMapValueType} from "@/axios/type.ts";
+import { AxiosRequestConfig } from "axios"
+import { isFunction } from "lodash-es"
+import { pendingMapValueType } from "@/axios/type.ts"
+import { ConfigType } from "./type.ts"
 
 let pendingMap = new Map<string, pendingMapValueType>()
 
 export const getPendingUrl = (config: AxiosRequestConfig) =>
-    [config.method, config.url, JSON.stringify(config.data), JSON.stringify(config.params)].join('&')
+  [config.method, config.url, JSON.stringify(config.data), JSON.stringify(config.params)].join("&")
 
 export class AxiosCanceler {
   
   // 添加请求
-  addPending(config: AxiosRequestConfig) {
+  addPending(config: AxiosRequestConfig<any> & ConfigType) {
     this.removePending(config)
     const url = getPendingUrl(config)
-    const {controller} = config.headers
+    const { controller } = config.requestOptions
     if (config.signal) {
       if (!pendingMap.has(url)) {
-        pendingMap.set(url, {controller, signal: config.signal})
+        pendingMap.set(url, { controller, signal: config.signal })
       }
     }
   }
