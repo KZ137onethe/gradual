@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
+import { Icon, addIcon} from '@iconify/vue'
 import type { IconTypes } from './types.ts'
-import { addReignIcon } from "@/utils/iconifyCustomIcons.ts"
 
-const { icon, color, size = 16, hoverColor, online = true, prefix = 'vi' } = defineProps<IconTypes>()
+const { icon, color, size = 16, hoverColor, prefix } = defineProps<IconTypes>()
 
-const isLocal = computed(() => icon.startsWith('svg-icon:'))
-
-const symbolId = computed(() => {
-  return unref(isLocal) ? `#icon-${icon.split('svg-icon:')[1]}` : icon
-})
-// 是否使用在线图标
-const isUseOnline = computed(() => {
-  return !unref(isLocal) && online
-})
+const addReignIcon = async(iconName: string)=>{
+    try {
+        console.log('addReignIcon', iconName)
+        // 动态加载指定的 SVG 文件
+        const iconModule = await import(`@/assets/icon/${iconName}.svg?raw`);
+        // 添加自定义图标
+        addIcon(`local:${iconName}`, {
+            body: iconModule.default,  // 将 SVG 内容作为 body
+        });
+    } catch (error) {
+        console.error(`Error loading icon "${iconName}":`, error);
+    }
+}
 const getIconifyStyle = computed(() => {
   return {
     fontSize: `${size}px`,
@@ -24,28 +27,21 @@ const prefixCls = computed(() => {
   return [`${prefix}-icon`]
 })
 
-// const getIconName = computed(() => {
-//   return icon.startsWith(prefix) ? icon.replace(prefix, '') : icon
-// })
-const getIconName = computed(() => {
+
+const IconName = computed(() => {
   return prefix + ":" + icon
 })
 // 判断是否是自定义图标
-if (prefix === 'custom'){
+if (prefix === 'local'){
   addReignIcon(icon)
 }
+
 </script>
 
 <template>
   <ElIcon :class="prefixCls" :size="size" :color="color">
-<!--    <svg v-if="isLocal" aria-hidden="true">-->
-<!--      <use :xlink:href="symbolId" />-->
-<!--    </svg>-->
-<!--    <template v-else>-->
-<!--      <Icon v-if="isUseOnline" :icon="getIconName" :size="getIconifyStyle.fontSize" :color="getIconifyStyle.color" />-->
-<!--      <div v-else :class="`${icon} iconify`" :style="getIconifyStyle"></div>-->
-<!--    </template>-->
-    <Icon :icon="getIconName" :size="getIconifyStyle.fontSize" :color="getIconifyStyle.color" />
+
+    <Icon :icon="IconName" :size="getIconifyStyle.fontSize" :color="getIconifyStyle.color" />
   </ElIcon>
 </template>
 

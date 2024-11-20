@@ -4,6 +4,6 @@
 
 2. 组件使用
 
-   prefix 前缀 custom为本地，其余就是iconfy组件库名字
+   prefix 前缀 local为本地，其余就是iconfy组件库名字
 
    icon 名字 icon名
