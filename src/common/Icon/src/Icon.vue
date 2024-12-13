@@ -3,19 +3,19 @@ import { Icon, addIcon } from '@iconify/vue'
 import type { IconTypes } from './types.ts'
 const local = 'local'
 
-const { icon, color, size = 16, hoverColor, prefix = local  } = defineProps<IconTypes>()
+const { icon = '', color, size = 16, hoverColor, prefix = local  } = defineProps<IconTypes>()
 // 添加自定义本地图标
-const addReignIcon = async(iconName: string)=>{
+const addReignIcon = async(iconNameparmas: string)=>{
     try {
-        console.log('addReignIcon', iconName)
+        console.log('addReignIcon', iconNameparmas)
         // 动态加载指定的 SVG 文件
-        const iconModule = await import(`@/assets/icon/${iconName}.svg?raw`);
+        const iconModule = await import(`@/assets/icon/${iconNameparmas}.svg?raw`);
         // 添加自定义图标
-        addIcon(`${local}:${iconName}`, {
+        addIcon(`${local}:${iconNameparmas}`, {
             body: iconModule.default,  // 将 SVG 内容作为 body
         });
     } catch (error) {
-        console.error(`Error loading icon "${iconName}":`, error);
+        console.error(`Error loading icon "${iconNameparmas}":`, error);
     }
 }
 const getIconifyStyle = computed(() => {
@@ -32,7 +32,15 @@ const prefixCls = computed(() => {
 
 
 const IconName = computed(() => {
-  return prefix + ":" + icon
+  let preName = ''
+  let preIcon = icon
+  if (preIcon === ''){
+    preName = prefix.split(':')[0]
+    preIcon = prefix.split(':')[1]
+  }else {
+    preName = prefix
+  }
+  return preName + ":" + preIcon
 })
 // 判断是否是自定义图标
 if (prefix === local){

@@ -8,6 +8,8 @@ import Children from "./components/children.vue";
     <Icon prefix="mdi-light" icon="home" color="red" />
     <Icon prefix="flat-color-icons" icon="about" />
     <Icon icon="qrcodescan" color="#91a8d0"/>
+    <Icon icon="beer" color="#91a8d0"/>
+    <Icon prefix="flat-color-icons:alarm-clock"/>
     <children v-slot="{ render }">
       {{ render.hitokoto }} - {{ render.from_who ?? '佚名' }}
     </children>
