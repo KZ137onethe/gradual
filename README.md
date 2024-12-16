@@ -62,6 +62,22 @@
    embeddedLanguageFormatting: auto
    ```
 
+2. vscode保存自动格式化配置
+
+   步骤：
+
+   1. 在vscode设置中搜索`emmet.include`
+
+      <img src="./.images/formatOnSave_search.png" alt="formatOnSave_search" style="zoom:50%;" />
+
+   2. 在`Emmet: Include Languages`配置中添加项`editor.formatOnType`:`true`和`editor.formatOnSave`:`true`
+
+      <img src=".\.images\formatOnSave_ops_1.png" alt="formatOnSave_ops_1" style="zoom:50%;" />
+
+   3. 在设置中搜索格式化，在`Editor: Format On Save`开启在保存时格式化文件
+
+      <img src=".\.images\formatOnSave_ops_2.png" alt="formatOnSave_ops_2" style="zoom:50%;" />
+
 `TODO`:
 
 ▶️ [任务列表](https://o0ke9xr7eb.feishu.cn/sheets/JEifsQ7TNh9yR8tlahfcaafNnfd?from=from_copylink)
