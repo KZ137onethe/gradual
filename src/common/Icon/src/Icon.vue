@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Icon, addIcon } from '@iconify/vue'
 import type { IconTypes } from './types.ts'
-const local = 'local'
 
-const { icon = '', color, size = 16, hoverColor, prefix = local  } = defineProps<IconTypes>()
+const local = 'local'
+const { icon, color, size = 16, hoverColor, prefix, isLocal = false  } = defineProps<IconTypes>()
 // 添加自定义本地图标
 const addReignIcon = async(iconNameparmas: string)=>{
     try {
@@ -25,28 +25,31 @@ const getIconifyStyle = computed(() => {
   }
 })
 
-
 const prefixCls = computed(() => {
-  return [`${prefix}-icon`]
-})
-
-
-const IconName = computed(() => {
-  let preName = ''
-  let preIcon = icon
-  if (preIcon === ''){
-    preName = prefix.split(':')[0]
-    preIcon = prefix.split(':')[1]
-  }else {
-    preName = prefix
+  if(isLocal) {
+    addReignIcon(icon)
+    return [`${local}-icon`]
   }
-  return preName + ":" + preIcon
+  return ['custom-icon']
 })
-// 判断是否是自定义图标
-if (prefix === local){
-  addReignIcon(icon)
-}
 
+const IconName = computed<string>(() => {
+  // 情况1：本地，只指定icon
+  // 情况2：线上，prefix + icon
+  // 情况3：线上，只有icon，通常这个icon有":"分割，前一部分为prefix，后一部分为真实的icon
+  if(isLocal) return local + ':' + icon
+  if(prefix && icon) return prefix + ':' + icon
+  if(!prefix && icon) {
+    const spliIconArr = icon.split(':')
+    console.log(spliIconArr)
+    let _prefix = '', _icon = ''
+    if(spliIconArr.length === 1) return icon
+    _prefix = spliIconArr[0]
+    _icon = spliIconArr.slice(1).reduce((pre, cur) => pre + cur, '')
+    return _prefix + ':' + _icon
+  }
+  return ''
+})
 </script>
 
 <template>

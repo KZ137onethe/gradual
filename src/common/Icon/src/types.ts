@@ -1,8 +1,8 @@
 export interface IconTypes {
   size?: number
   color?: string
-  icon?: string
+  icon: string
   hoverColor?: string
-  online?: boolean
+  isLocal?: boolean
   prefix?: string
 }
