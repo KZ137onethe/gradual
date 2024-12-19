@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
+import { Icon, addIcon } from '@iconify/vue'
 import type { IconTypes } from './types.ts'
-const { icon, color, size = 16, hoverColor, online = true, prefix = 'vi' } = defineProps<IconTypes>()
 
-const isLocal = computed(() => icon.startsWith('svg-icon:'))
-
-const symbolId = computed(() => {
-  return unref(isLocal) ? `#icon-${icon.split('svg-icon:')[1]}` : icon
-})
-
-// 是否使用在线图标
-const isUseOnline = computed(() => {
-  return !unref(isLocal) && online
-})
-
+const local = 'local'
+const { icon, color, size = 16, hoverColor, prefix, isLocal = false  } = defineProps<IconTypes>()
+// 添加自定义本地图标
+const addReignIcon = async(iconNameparmas: string)=>{
+    try {
+        console.log('addReignIcon', iconNameparmas)
+        // 动态加载指定的 SVG 文件
+        const iconModule = await import(`@/assets/icon/${iconNameparmas}.svg?raw`);
+        // 添加自定义图标
+        addIcon(`${local}:${iconNameparmas}`, {
+            body: iconModule.default,  // 将 SVG 内容作为 body
+        });
+    } catch (error) {
+        console.error(`Error loading icon "${iconNameparmas}":`, error);
+    }
+}
 const getIconifyStyle = computed(() => {
   return {
     fontSize: `${size}px`,
@@ -22,24 +26,35 @@ const getIconifyStyle = computed(() => {
 })
 
 const prefixCls = computed(() => {
-  return [`${prefix}-icon`]
+  if(isLocal) {
+    addReignIcon(icon)
+    return [`${local}-icon`]
+  }
+  return ['custom-icon']
 })
 
-const getIconName = computed(() => {
-  return icon.startsWith(prefix) ? icon.replace(prefix, '') : icon
+const IconName = computed<string>(() => {
+  // 情况1：本地，只指定icon
+  // 情况2：线上，prefix + icon
+  // 情况3：线上，只有icon，通常这个icon有":"分割，前一部分为prefix，后一部分为真实的icon
+  if(isLocal) return local + ':' + icon
+  if(prefix && icon) return prefix + ':' + icon
+  if(!prefix && icon) {
+    const spliIconArr = icon.split(':')
+    console.log(spliIconArr)
+    let _prefix = '', _icon = ''
+    if(spliIconArr.length === 1) return icon
+    _prefix = spliIconArr[0]
+    _icon = spliIconArr.slice(1).reduce((pre, cur) => pre + cur, '')
+    return _prefix + ':' + _icon
+  }
+  return ''
 })
 </script>
 
 <template>
   <ElIcon :class="prefixCls" :size="size" :color="color">
-    <svg v-if="isLocal" aria-hidden="true">
-      <use :xlink:href="symbolId" />
-    </svg>
-
-    <template v-else>
-      <Icon v-if="isUseOnline" :icon="getIconName" :size="getIconifyStyle.fontSize" :color="getIconifyStyle.color" />
-      <div v-else :class="`${icon} iconify`" :style="getIconifyStyle"></div>
-    </template>
+    <Icon :icon="IconName" :size="getIconifyStyle.fontSize" :color="getIconifyStyle.color" />
   </ElIcon>
 </template>
 

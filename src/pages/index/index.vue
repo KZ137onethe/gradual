@@ -4,7 +4,10 @@ import Children from "./components/children.vue";
 
 <template>
   <div class="index-page">
-    <Icon icon="material-symbols-light:12mp-outline-rounded"></Icon>
+    <Icon isLocal icon="beer" ></Icon>
+    <Icon prefix="ic" icon="baseline-roundabout-left"></Icon>
+    <Icon prefix="proicons" icon="apple" color="red" />
+    <Icon icon="flat-color-icons:alarm-clock"/>
     <children v-slot="{ render }">
       {{ render.hitokoto }} - {{ render.from_who ?? '佚名' }}
     </children>

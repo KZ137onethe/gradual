@@ -3,6 +3,6 @@ export interface IconTypes {
   color?: string
   icon: string
   hoverColor?: string
-  online?: boolean
+  isLocal?: boolean
   prefix?: string
 }
