@@ -35,9 +35,9 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
       dts: 'types/auto-components.d.ts',
     }),
-    // WebfontDownload([
-    //   "https://fonts.bunny.net/css?family=noto-sans-sc:100,200,300,400,500,600,700,800,900|zcool-kuaile:400"
-    // ])
+    WebfontDownload([
+      'https://fonts.bunny.net/css?family=noto-sans-sc:100,200,300,400,500,600,700,800,900|zcool-kuaile:400',
+    ]),
   ],
   resolve: {
     alias: {
