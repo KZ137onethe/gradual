@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, GenericAbortSignal } from "axios"
+import type { GenericAbortSignal } from 'axios'
 
 export type CreateAxiosOptions = any
 
@@ -14,13 +14,13 @@ export type SuccessMessageMode = 'none' | 'modal' | 'message' | 'notification'
 
 export enum MessageTitle {
   SUCCESS = '成功提示',
-  ERROR = '错误提示'
+  ERROR = '错误提示',
 }
 
 export type Recordable<T = any> = Record<string, T>
 
 export interface pendingMapValueType {
-  controller: AbortController,
+  controller: AbortController
   signal: GenericAbortSignal
 }
 
@@ -28,7 +28,7 @@ export enum RequestEnum {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
-  DELETE = 'DELETE'
+  DELETE = 'DELETE',
 }
 
 export interface ConfigType {
@@ -76,6 +76,5 @@ export enum ResultEnum {
   SUCCESS = 0,
   ERROR = 1,
   TIMEOUT = 401,
-  TYPE = 'success'
+  TYPE = 'success',
 }
-

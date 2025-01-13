@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
-import "./styles/index.scss"
 import App from './App.vue'
+import { setupGlobCom } from './common'
 
 import { router } from './router'
-import {setupGlobCom} from "./common";
+import './styles/index.scss'
 
 const app = createApp(App)
 app.use(router)

@@ -1,9 +1,10 @@
-import {ErrorMessageMode, MessageTitle} from './type.ts'
+import type { ErrorMessageMode } from './type.ts'
+import { MessageTitle } from './type.ts'
 
 export function checkStatus(status: number, message: string, errorMessageMode: ErrorMessageMode = 'message'): void {
   let errMessage = ''
-  
-  switch(status) {
+
+  switch (status) {
     case 400:
       errMessage = `${message}`
       break
@@ -42,23 +43,23 @@ export function checkStatus(status: number, message: string, errorMessageMode: E
       break
     default:
   }
-  
-  if(errMessage) {
-    if(errorMessageMode === 'modal') {
+
+  if (errMessage) {
+    if (errorMessageMode === 'modal') {
       ElMessageBox({
         title: MessageTitle.ERROR,
         center: true,
         type: 'error',
         message: errMessage,
-        showClose: true
+        showClose: true,
       }).then(undefined)
-    } else if(errorMessageMode === 'message') {
+    } else if (errorMessageMode === 'message') {
       ElMessage({
         message: errMessage,
         type: 'error',
         plain: true,
         center: true,
-        grouping: true
+        grouping: true,
       })
     }
   }

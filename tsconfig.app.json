@@ -1,47 +1,49 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
+    "jsx": "preserve",
     "lib": [
       "ES2020",
       "DOM",
       "DOM.Iterable"
     ],
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "preserve",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noImplicitThis": true,
-
-    /* 声明文件目录 */
-    "typeRoots": ["node_modules/@types", "types"],
-
-    /* 路径映射 */
-    "paths": {
-      "@/*": ["./src/*"],
-      "~/*": ["./*"]
-    },
-
+    "useDefineForClassFields": true,
+    // 装饰器的声明触发某些类型的元数据的实验性支持
+    "emitDecoratorMetadata": true,
     // 装饰器的实验特性
     "experimentalDecorators": true,
-    // 装饰器的声明触发某些类型的元数据的实验性支持
-    "emitDecoratorMetadata": true
+    "module": "ESNext",
+    /* Bundler mode */
+    "moduleResolution": "Bundler",
+    /* 路径映射 */
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "~/*": [
+        "./*"
+      ]
+    },
+    /* 声明文件目录 */
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
+    ],
+    "allowImportingTsExtensions": true,
+    /* Linting */
+    "strict": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noUncheckedSideEffectImports": true
   },
   "include": [
     "src/**/*.ts",

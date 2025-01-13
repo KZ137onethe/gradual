@@ -1,13 +1,13 @@
-import { defineConfig } from 'vite'
-import path from 'path'
-
+import path from 'node:path'
 import vue from '@vitejs/plugin-vue'
+
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import VueRouter from 'unplugin-vue-router/vite'
-import { VueRouterAutoImports } from 'unplugin-vue-router'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
+import VueRouter from 'unplugin-vue-router/vite'
+import { defineConfig } from 'vite'
 import WebfontDownload from 'vite-plugin-webfont-dl'
 
 // https://vite.dev/config/
@@ -18,33 +18,33 @@ export default defineConfig({
     VueRouter({
       routesFolder: [
         {
-          src: "src/pages",
-          path: "",
-          exclude: "**/components/**",
-          extensions: [".vue"]
-        }
+          src: 'src/pages',
+          path: '',
+          exclude: '**/components/**',
+          extensions: ['.vue'],
+        },
       ],
-      dts: 'types/auto-router.d.ts'
+      dts: 'types/auto-router.d.ts',
     }),
     AutoImport({
       imports: ['vue', 'vue-router', 'pinia', VueRouterAutoImports],
-      resolvers:[ElementPlusResolver()],
-      dts: 'types/auto-import.d.ts'
+      resolvers: [ElementPlusResolver()],
+      dts: 'types/auto-import.d.ts',
     }),
     Components({
-      resolvers:[ElementPlusResolver()],
-      dts: 'types/auto-components.d.ts'
+      resolvers: [ElementPlusResolver()],
+      dts: 'types/auto-components.d.ts',
     }),
-    WebfontDownload([
-      "https://fonts.bunny.net/css?family=noto-sans-sc:100,200,300,400,500,600,700,800,900|zcool-kuaile:400"
-    ])
+    // WebfontDownload([
+    //   "https://fonts.bunny.net/css?family=noto-sans-sc:100,200,300,400,500,600,700,800,900|zcool-kuaile:400"
+    // ])
   ],
   resolve: {
     alias: {
-      "~": path.resolve(__dirname, "./"),
-      "@": path.resolve(__dirname, "./src"),
+      '~': path.resolve(__dirname, './'),
+      '@': path.resolve(__dirname, './src'),
     },
-    extensions: ['.ts', '.js', '.mjs', '.jsx', '.tsx', '.json', '.vue']
+    extensions: ['.ts', '.js', '.mjs', '.jsx', '.tsx', '.json', '.vue'],
   },
   server: {
     port: 5173,
@@ -53,5 +53,5 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-  }
+  },
 })

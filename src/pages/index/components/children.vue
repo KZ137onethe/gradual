@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import {httpRequest} from '@/axios'
+import { httpRequest } from '@/axios'
 
 enum Api {
-  Sentence = 'https://v1.hitokoto.cn/'
+  Sentence = 'https://v1.hitokoto.cn/',
 }
 
 const data = reactive({
   from_who: '',
-  hitokoto: ''
+  hitokoto: '',
 })
 
-const getSentence = ({c = undefined, encode = undefined}: { c?: 'b' | 'f', encode?: 'text' } = {}
-) => {
+function getSentence({ c = undefined, encode = undefined }: { c?: 'b' | 'f', encode?: 'text' } = {}) {
   return httpRequest.request({
     method: 'GET',
     url: Api.Sentence,
     params: {
       c,
-      encode
+      encode,
     },
   }, {
     successMessageMode: 'notification',
@@ -33,10 +32,8 @@ onMounted(async () => {
 
 <template>
   <div class="son-children">
-    <slot :render="data"></slot>
+    <slot :render="data" />
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
