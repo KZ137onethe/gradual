@@ -1,8 +1,8 @@
 import type { CreateAxiosOptions } from './type'
+import { ContentType } from '@/utils/http.ts'
 import { merge } from 'lodash-es'
 import { transform } from './axiosTransform.ts'
 import { VAxios } from './instance'
-import { ContentType } from '@/utils/http.ts'
 
 const urlPrefix = '/server_api'
 
