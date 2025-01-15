@@ -1,10 +1,11 @@
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
-import type { ConfigType, MessageTitle, Recordable, RequestEnum, RequestOptions, Result, ResultEnum } from './type.ts'
+import type { ConfigType, Recordable, RequestOptions, Result } from './type.ts'
 import axios from 'axios'
 import { ElNotification } from 'element-plus'
 import { isObject, isString } from 'lodash-es'
+import { checkStatus } from './checkStatus.ts'
 import { formatRequestDate, joinTimestamp, setObjToUrlParams } from './helps.ts'
-import { checkStatus } from '@/axios/checkStatus.ts'
+import { MessageTitle, RequestEnum, ResultEnum } from './type.ts'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
   authenticationScheme?: string

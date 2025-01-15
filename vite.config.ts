@@ -24,16 +24,16 @@ export default defineConfig({
           extensions: ['.vue'],
         },
       ],
-      dts: 'types/auto-router.d.ts',
+      dts: 'types/plugins/auto-router.d.ts',
     }),
     AutoImport({
       imports: ['vue', 'vue-router', 'pinia', VueRouterAutoImports],
       resolvers: [ElementPlusResolver()],
-      dts: 'types/auto-import.d.ts',
+      dts: 'types/plugins/auto-import.d.ts',
     }),
     Components({
       resolvers: [ElementPlusResolver()],
-      dts: 'types/auto-components.d.ts',
+      dts: 'types/plugins/auto-components.d.ts',
     }),
     WebfontDownload([
       'https://fonts.bunny.net/css?family=noto-sans-sc:100,200,300,400,500,600,700,800,900|zcool-kuaile:400',

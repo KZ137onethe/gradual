@@ -2,7 +2,7 @@ import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import type { ConfigType, CreateAxiosOptions, RequestOptions, Result } from './type.ts'
 import axios from 'axios'
 import { cloneDeep, isFunction, merge } from 'lodash-es'
-import { AxiosCanceler } from '@/axios/axiosCancel.ts'
+import { AxiosCanceler } from './axiosCancel.ts'
 
 export class VAxios {
   private axiosInstance: AxiosInstance

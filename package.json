@@ -27,6 +27,7 @@
     "@types/node": "^22.8.4",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vitejs/plugin-vue-jsx": "^4.0.1",
+    "@vue/runtime-dom": "^3.5.13",
     "eslint": "^9.18.0",
     "eslint-plugin-format": "^1.0.1",
     "eslint-plugin-oxlint": "^0.15.6",

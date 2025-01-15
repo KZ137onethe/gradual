@@ -1,4 +1,5 @@
 import type { ErrorMessageMode } from './type.ts'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { MessageTitle } from './type.ts'
 
 export function checkStatus(status: number, message: string, errorMessageMode: ErrorMessageMode = 'message'): void {

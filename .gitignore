@@ -19,8 +19,6 @@ dist-ssr
 *.local
 
 # Editor directories and files
-# .vscode/*
-# !.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
@@ -30,6 +28,4 @@ dist-ssr
 *.sw?
 
 # 插件自动定义的typescript全局文件
-types/auto-import.d.ts
-types/auto-components.d.ts
-types/auto-router.d.ts
+types/plugins/*.d.ts

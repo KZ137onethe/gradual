@@ -1,6 +1,6 @@
 import type { App } from 'vue'
-import { Icon } from './Icon'
+import CustomIcon from './CustomIcon'
 
 export function setupGlobCom(app: App<Element>): void {
-  app.component('icon', Icon)
+  app.component('custom-icon', CustomIcon)
 }
