@@ -84,8 +84,8 @@ export class VAxios {
 
     // 请求拦截器错误捕获处理
     requestInterceptorsCatch
-    && isFunction(requestInterceptorsCatch)
-    && this.axiosInstance.interceptors.request.use(undefined, requestInterceptorsCatch)
+      && isFunction(requestInterceptorsCatch)
+      && this.axiosInstance.interceptors.request.use(undefined, requestInterceptorsCatch)
 
     // 响应结果拦截器处理
     this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
@@ -98,8 +98,8 @@ export class VAxios {
 
     // 响应结果拦截器错误捕获处理
     responseInterceptorsCatch
-    && isFunction(responseInterceptorsCatch)
-    && this.axiosInstance.interceptors.response.use(undefined, responseInterceptorsCatch)
+      && isFunction(responseInterceptorsCatch)
+      && this.axiosInstance.interceptors.response.use(undefined, responseInterceptorsCatch)
   }
 
   // 自定义请求，会使用transform的钩子
