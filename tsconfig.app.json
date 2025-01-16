@@ -18,18 +18,13 @@
     "moduleResolution": "Bundler",
     /* 路径映射 */
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "~/*": [
-        "./*"
-      ]
+      "@/*": ["./src/*"],
+      "~/*": ["./*"]
     },
     /* 声明文件目录 */
     "typeRoots": [
       "node_modules/@types",
-      "types",
-      "types/plugins"
+      "types/**"
     ],
     "allowImportingTsExtensions": true,
     /* Linting */
@@ -47,9 +42,8 @@
     "noUncheckedSideEffectImports": true
   },
   "include": [
-    "src/**/*.{ts,tsx,vue}",
-    /* style */
-    "src/assets/**.{scss,less,css}",
+    /* all src folder's file */
+    "src/**/*",
     /* type ts */
     "types/**.d.ts",
     "types/**/**.d.ts"
