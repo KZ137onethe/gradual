@@ -1,10 +1,11 @@
 export interface IconTypes {
   name: string
+  size?: number
+  inline?: boolean
+  fillColor?: string
+  hoverColor?: string
   isLocal?: boolean
   folder?: string
   prefix?: string
-  size?: number
-  fillColor?: string
-  hoverColor?: string
   dynamic?: boolean
 }

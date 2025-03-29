@@ -4,10 +4,14 @@ import { eventBus } from '@/utils/eventBus.ts'
 import { Icon } from '@iconify/vue'
 import IconOpt, { color } from './opt.ts'
 
-const { name, fillColor = color.fill, size = 16, hoverColor = color.hover, prefix, isLocal = false, dynamic = false, folder } = defineProps<IconTypes>()
+const { name, fillColor = color.fill, size = 16, hoverColor = color.hover, prefix, isLocal = false, dynamic = false, folder, inline = true } = defineProps<IconTypes>()
 
+// #region 初始化
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
 const instance = ref<IconOpt>(new IconOpt(name, { isLocal, prefix, size, fillColor, hoverColor, folder }))
+// #endregion
+
+// #region 动态图标
 const { pause } = watch(() => name, (cur, pre) => {
   if (cur && cur !== pre && dynamic) {
     instance.value = new IconOpt(cur, { isLocal, prefix, size, fillColor, hoverColor, folder })
@@ -27,10 +31,26 @@ onMounted(() => {
     pause()
   }
 })
+// #endregion
+
+// #region 样式
+const className = ref(['custom-icon'])
+const classNameStyles = computed(() => {
+  const styles = {
+    display: 'block',
+  }
+  if (unref(inline)) {
+    Object.assign(styles, {
+      display: 'inline',
+    })
+  }
+  return styles
+})
+// #endregion
 </script>
 
 <template>
-  <div v-if="instance.iconName && instance.iconCSS" :class="instance.iconCSS!.className">
+  <div v-if="instance.iconName && instance.iconCSS" :class="className">
     <Icon
       :icon="instance.iconName"
       :width="instance.iconCSS.style.width"
@@ -38,7 +58,7 @@ onMounted(() => {
       :color="instance.iconCSS.style.fill"
     />
   </div>
-  <div v-else>
+  <div v-else :class="className">
     <Icon icon="line-md:loading-alt-loop" :size="size" />
   </div>
 </template>
@@ -58,5 +78,11 @@ onMounted(() => {
     // stylelint-disable-next-line
     color: v-bind(hoverColor) !important;
   }
+}
+
+.custom-icon {
+  display: v-bind('classNameStyles.display');
+  vertical-align: middle;
+  margin: 0 2px;
 }
 </style>

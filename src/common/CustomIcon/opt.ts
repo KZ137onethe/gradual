@@ -6,7 +6,6 @@ import { addIcon } from '@iconify/vue'
 type IconOptParam = Partial<Pick<IconTypes, 'isLocal' | 'prefix' | 'size' | 'fillColor' | 'hoverColor' | 'folder'>>
 interface CssAttrs {
   style: Record<string, string | undefined>
-  className: string[]
   other: Record<string, string | undefined>
 }
 
@@ -56,7 +55,6 @@ class IconOpt {
         height: `${size}px`,
         fill: fillColor,
       },
-      className: ['custom-icon'],
       other: {
         hoverColor,
       },

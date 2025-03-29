@@ -31,9 +31,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="son-children">
+  <span class="son-children">
     <slot :render="data" />
-  </div>
+  </span>
 </template>
 
 <style scoped lang="scss"></style>
