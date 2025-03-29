@@ -73,7 +73,10 @@ export class VAxios {
       const { signal: cancelRequestSignal } = config
       const { ignoreCancel } = this.getRequestOptions()
       if (!ignoreCancel && cancelRequestSignal) {
-        axiosCanceler.addPending(config)
+        axiosCanceler.addPending({
+          ...config,
+          requestOptions: this.getRequestOptions()
+        })
       }
 
       if (requestInterceptors && isFunction(requestInterceptors)) {
@@ -107,7 +110,7 @@ export class VAxios {
     config: AxiosRequestConfig,
     options?: RequestOptions,
   ): Promise<T> {
-    let conf = cloneDeep(config) as AxiosRequestConfig & ConfigType
+    let conf = cloneDeep({ ...config, requestOptions: this.getRequestOptions() }) as AxiosRequestConfig & ConfigType
     const transform = this.getTransform()
     const requestOptions = this.getRequestOptions()
 

@@ -5,6 +5,7 @@ import { ElNotification } from 'element-plus'
 import { isObject, isString } from 'lodash-es'
 import { checkStatus } from './checkStatus.ts'
 import { formatRequestDate, joinTimestamp, setObjToUrlParams } from './helps.ts'
+import { MessageTitle, RequestEnum, ResultEnum } from './type.ts'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
   authenticationScheme?: string
