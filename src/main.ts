@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { setupGlobCom } from './common'
+import setupGlobCom from './common'
 
 import { router } from './router'
 import './styles/index.scss'
