@@ -145,8 +145,8 @@ function toggleVisibleClick() {}
       </el-col>
     </el-row>
 
-    <el-divider content-position="left">Vue全局挂载 对话框、抽屉、消息提示、消息弹出框、通知，ts可以统一路径调用</el-divider>
-
+    <el-divider content-position="left">Vue全局挂载 对话框、抽屉、消息提示、消息弹出框、通知，ts可以统一全局API去调用</el-divider>
+    
   </div>
 </template>
 

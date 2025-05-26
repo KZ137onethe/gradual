@@ -3,7 +3,7 @@ import { isArray, isSymbol } from "./type"
 type judgeType = number | string
 
 
-// TODO: 处理简单范围内的值
+// TODO: 处理简单范围内的值，如  val >= 10 && val < 20 的情况
 /**
  * 判断处理器函数
  * @param  code 判断的变量
