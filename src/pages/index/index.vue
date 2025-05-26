@@ -1,15 +1,39 @@
 <script setup lang="ts">
+import { judgeHandler } from '@/utils/handler'
 import Children from './components/children.vue'
 
 const dynamicIconName = ref('anchor-off')
+const randomVal = ref(0)
 
-setTimeout(() => {
-}, 1000)
+judgeHandler<number>(randomVal.value, new Map<number | number[] | symbol, Function>([
+  [
+    1,
+    () => {
+      console.log('值是1')
+    }
+  ],
+  [
+    [2, 3],
+    () => {
+      console.log('值是2或3')
+    }
+  ],
+  [
+    Symbol("default"),
+    () => {
+      console.log('值是其他')
+    }
+  ]
+]))
+
+onMounted(() => {
+  randomVal.value = Math.floor(Math.random() * 9 + 1)
+})
 </script>
 
 <template>
   <div class="page">
-    <div class="page__container">
+    <div class="page-container">
       <custom-icon
         is-local
         folder="icon"
@@ -45,10 +69,8 @@ setTimeout(() => {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  &__container {
+  &-container {
     text-align: center;
-  }
-  .item-item-area {
   }
 }
 </style>
