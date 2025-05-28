@@ -1,11 +1,51 @@
 {
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
+  "compilerOptions": {
+    "target": "ES2020",
+    "jsx": "preserve",
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "moduleDetection": "force",
+    "useDefineForClassFields": true,
+    // 装饰器的声明触发某些类型的元数据的实验性支持
+    "emitDecoratorMetadata": true,
+    // 装饰器的实验特性
+    "experimentalDecorators": true,
+    "module": "ESNext",
+    /* Bundler mode */
+    "moduleResolution": "Bundler",
+    /* 路径映射 */
+    "paths": {
+      "@/*": ["./src/*"],
+      "~/*": ["./*"]
     },
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ],
-  "files": []
+    /* 声明文件目录 */
+    "typeRoots": [
+      "node_modules/@types",
+      "types/**"
+    ],
+    "allowImportingTsExtensions": true,
+    /* Linting */
+    "strict": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": [
+    /* all src folder's file */
+    "src/**/*",
+    /* type ts */
+    "types/**.d.ts",
+    "types/**/**.d.ts"
+  ]
 }
