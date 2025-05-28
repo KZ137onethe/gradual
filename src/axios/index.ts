@@ -1,6 +1,5 @@
 import type { CreateAxiosOptions } from './type'
 import { ContentType } from '@/utils/http.ts'
-import { merge } from 'lodash-es'
 import { transform } from './axiosTransform.ts'
 import { VAxios } from './instance'
 
@@ -9,7 +8,7 @@ const urlPrefix = '/server_api'
 // 创建axios实例
 function createAxios(opt?: Partial<CreateAxiosOptions>) {
   return new VAxios(
-    merge(
+    Object.assign(
       // 第一个对象是默认配置
       {
         timeout: 10 * 1000,

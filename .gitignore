@@ -1,12 +1,3 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
 # 依赖包地图文件
 pnpm-lock.yaml
 package-lock.json
@@ -17,15 +8,6 @@ node_modules
 dist
 dist-ssr
 *.local
-
-# Editor directories and files
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 
 # 插件自动定义的typescript全局文件
 types/plugins/*.d.ts

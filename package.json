@@ -14,7 +14,6 @@
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
     "element-plus": "^2.8.6",
-    "lodash-es": "^4.17.21",
     "pinia": "^2.2.5",
     "sass": "1.78.0",
     "vue": "^3.5.12",
@@ -23,7 +22,6 @@
   "devDependencies": {
     "@antfu/eslint-config": "^3.14.0",
     "@iconify/vue": "^4.1.2",
-    "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.8.4",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vitejs/plugin-vue-jsx": "^4.0.1",

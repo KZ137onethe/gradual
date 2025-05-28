@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios'
 import type { ConfigType, pendingMapValueType } from './type.ts'
-import { isFunction } from 'lodash-es'
+import { isFunction } from "@/utils/type.ts"
 
 let pendingMap = new Map<string, pendingMapValueType>()
 

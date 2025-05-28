@@ -1,6 +1,6 @@
 import type { Recordable } from './type.ts'
 import dayjs from 'dayjs'
-import { isObject, isString } from 'lodash-es'
+import { isObject, isString } from '@/utils/type.ts'
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD'
 // join timestamp

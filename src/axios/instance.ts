@@ -1,7 +1,8 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import type { ConfigType, CreateAxiosOptions, RequestOptions, Result } from './type.ts'
 import axios from 'axios'
-import { cloneDeep, isFunction, merge } from 'lodash-es'
+import { cloneDeep } from '@/utils/base.ts'
+import { isFunction } from '@/utils/type.ts'
 import { AxiosCanceler } from './axiosCancel.ts'
 
 export class VAxios {
@@ -114,7 +115,7 @@ export class VAxios {
     const transform = this.getTransform()
     const requestOptions = this.getRequestOptions()
 
-    const opt: RequestOptions = merge({}, requestOptions, options)
+    const opt: RequestOptions = Object.assign({}, requestOptions, options)
 
     const { beforeRequestHook, requestCatchHook, transformRequestHook } = transform || {}
     if (beforeRequestHook && isFunction(beforeRequestHook)) {

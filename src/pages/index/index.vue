@@ -2,7 +2,6 @@
 import Children from './components/children.vue'
 
 import { judgeHandler } from '@/utils/handler'
-import useControl from '@/hooks/useDomControl'
 
 // #region 图标
 const dynamicIconName = ref('anchor-off')
