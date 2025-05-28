@@ -14,3 +14,20 @@ const DEFAULT_PAGINATION: PaginationData = {
   pageSize: 10,
   layout: 'total, sizes, prev, pager, next, jumper',
 }
+
+export function usePagination(initPagination: PaginationData = {}) {
+  // 合并默认分页参数和传入的参数
+  const paginationData = { ...DEFAULT_PAGINATION, ...initPagination }
+
+  // 改变当前页码
+  const handleCurrentChange = (value: number) => {
+    paginationData.currentPage = value
+  }
+  // 改变每页显示条数
+  const handleSizeChange = (value: number) => {
+    paginationData.pageSize = value
+  }
+
+  return { paginationData, handleCurrentChange, handleSizeChange }
+
+}
