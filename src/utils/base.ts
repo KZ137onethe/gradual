@@ -1,9 +1,9 @@
 
 export const cloneDeep = (origin: any, hashMap = new WeakMap()) => {
-  if(origin == undefined || typeof origin !== 'object') {
+  if (origin == undefined || typeof origin !== 'object') {
     return origin;
   }
-  if(origin instanceof Date) {
+  if (origin instanceof Date) {
     return origin
   }
   if (origin instanceof RegExp) {

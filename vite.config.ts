@@ -19,10 +19,13 @@ export default defineConfig(({ command, mode }) => {
       vueJsx(),
       VueRouter({
         routesFolder: [
+          // 路由会扫描哪些文件以及配置
           {
             src: 'src/pages',
             path: '',
-            exclude: '**/components/**',
+            // 排查路径名
+            exclude: ['**/_components/**', '**/_data/**'],
+            // 解析的文件类型
             extensions: ['.vue'],
           },
         ],
@@ -44,6 +47,7 @@ export default defineConfig(({ command, mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
+          // 全局注入
           additionalData: `@use "@/styles/reset.scss" as *;`,
           devSourcemap: true
         }
