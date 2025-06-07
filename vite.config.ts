@@ -9,6 +9,7 @@ import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 // import WebfontDownload from 'vite-plugin-webfont-dl'
+import { mockDevServerPlugin } from "vite-plugin-mock-dev-server"
 
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -43,6 +44,7 @@ export default defineConfig(({ command, mode }) => {
       // WebfontDownload([
       //   'https://fonts.bunny.net/css?family=noto-sans-sc:100,200,300,400,500,600,700,800,900|zcool-kuaile:400',
       // ]),
+      mockDevServerPlugin()
     ],
     css: {
       preprocessorOptions: {
@@ -53,21 +55,26 @@ export default defineConfig(({ command, mode }) => {
         }
       }
     },
+    define: {
+      __APP_API_TEST__: JSON.stringify("/api/v1")
+    },
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './'),
         '@': path.resolve(__dirname, './src'),
       },
-      extensions: ['.ts', '.js', '.mjs', '.jsx', '.tsx', '.json', '.vue'],
+      extensions: ['.ts', '.cts', '.js', '.mjs', '.jsx', '.tsx', '.json', '.vue'],
     },
     server: {
       port: 5173,
       strictPort: true,
-      open: true,
+      open: false,
+      proxy: {
+        '^/api/v1': "http://example.com"
+      }
     },
     build: {
       outDir: 'dist',
     },
-    cacheDir: 'dist/.cache'
   }
 })

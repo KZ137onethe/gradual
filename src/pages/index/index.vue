@@ -2,7 +2,6 @@
 import Children from './_components/children.vue'
 
 import { judgeHandler } from '@/utils/handler'
-import { TABLE_DATA } from "./_data/example.json"
 import { usePagination } from '@/hooks/usePagiation'
 
 // #region 图标
@@ -37,19 +36,30 @@ onMounted(() => {
 // #endregion
 
 // #region 分页器 hooks
-const tableData = ref()
-const { paginationData, handleCurrentChange, handleSizeChange } = usePagination({ total: TABLE_DATA.length })
+const tableData = ref<Array<any>>([])
+const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
-function getMockData(current: number, limit: number = 10) {
-  return TABLE_DATA.slice((current - 1) * limit, current * limit)
+function getTableData() {
+  fetch('/api/v1/test', { method: "POST", body: JSON.stringify({ current: paginationData.currentPage, limit: paginationData.pageSize }), headers: { 'Content-Type': "application/json" } })
+    .then((response) => {
+      if(!response.ok) {
+        throw new Error("请求失败")
+      }
+      return response.json()
+    })
+    .then((res) => {
+      const { records, total } = res.data
+      tableData.value = records
+      paginationData.total = total
+    })
+    .catch((error) => {
+      console.log("💬 ⋮ getTableData ⋮ error => ", error)
+      tableData.value = []
+    })
 }
 
-watch(() => paginationData, (cur, _) => {
-  tableData.value = getMockData(cur.currentPage!, cur.pageSize)
-}, {
-  immediate: true,
-  deep: true
-})
+// 监听分页参数的变化
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 // #endregion
 </script>
 

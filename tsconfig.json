@@ -46,6 +46,9 @@
     "src/**/*",
     /* type ts */
     "types/**.d.ts",
-    "types/**/**.d.ts"
+    "types/**/**.d.ts",
+    /* mock ts */
+    "mock/*.ts",
+    "mock/**/*.ts"
   ]
 }
