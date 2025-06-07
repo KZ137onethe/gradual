@@ -10,7 +10,7 @@ const dynamicIconName = ref('anchor-off')
 
 // #region 判断处理器
 const randomVal = ref(0)
-judgeHandler<number>(randomVal.value, new Map<number | number[] | symbol, Function>([
+judgeHandler<number>(randomVal.value, [
   [
     1,
     () => {
@@ -29,7 +29,7 @@ judgeHandler<number>(randomVal.value, new Map<number | number[] | symbol, Functi
       console.log('值是其他')
     }
   ]
-]))
+])
 onMounted(() => {
   randomVal.value = Math.floor(Math.random() * 9 + 1)
 })
