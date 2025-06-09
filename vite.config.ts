@@ -44,7 +44,8 @@ export default defineConfig(({ command, mode }) => {
       // WebfontDownload([
       //   'https://fonts.bunny.net/css?family=noto-sans-sc:100,200,300,400,500,600,700,800,900|zcool-kuaile:400',
       // ]),
-      mockDevServerPlugin()
+      // 生产环境不进行mock
+      mode !== 'production' ? mockDevServerPlugin() : ''
     ],
     css: {
       preprocessorOptions: {
@@ -70,7 +71,10 @@ export default defineConfig(({ command, mode }) => {
       strictPort: true,
       open: false,
       proxy: {
-        '^/api/v1': "http://example.com"
+        '^/api/v1': {
+          target: "http://example.com",
+          changeOrigin: true
+        }
       }
     },
     build: {
