@@ -1,100 +1,38 @@
 <script setup lang="ts">
-import Children from './_components/children.vue'
+import { Ofdview } from "ofdview-vue3"
+import * as parser from "parser_x.js"
 
-import { judgeHandler } from '@/utils/handler'
-import { usePagination } from '@/hooks/usePagiation'
+const fileData = ref<any>()
 
-// #region 图标
-const dynamicIconName = ref('anchor-off')
-// #endregion
-
-// #region 判断处理器
-const randomVal = ref(0)
-judgeHandler<number>(randomVal.value, [
-  [
-    1,
-    () => {
-      console.log('值是1')
-    }
-  ],
-  [
-    [2, 3],
-    () => {
-      console.log('值是2或3')
-    }
-  ],
-  [
-    Symbol("default"),
-    () => {
-      console.log('值是其他')
-    }
-  ]
-])
-onMounted(() => {
-  randomVal.value = Math.floor(Math.random() * 9 + 1)
-})
-// #endregion
-
-// #region 分页器 hooks
-const tableData = ref<Array<any>>([])
-const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
-
-function getTableData() {
-  fetch('/api/v1/test', { method: "POST", body: JSON.stringify({ current: paginationData.currentPage, limit: paginationData.pageSize }), headers: { 'Content-Type': "application/json" } })
+const downloadFile = () => {
+  fetch('/api/v1/ofd-file', { method: "POST", body: JSON.stringify({ "name": "1" }), headers: { 'Content-Type': 'application/json' } })
     .then((response) => {
-      if(!response.ok) {
-        throw new Error("请求失败")
+      if (!response.ok) {
+        throw new Error(`HTTP error, http status: ${response.status}`)
       }
-      return response.json()
+      return response.blob()
     })
-    .then((res) => {
-      const { records, total } = res.data
-      tableData.value = records
-      paginationData.total = total
+    .then((blobData) => {
+      const url = fileData.value = URL.createObjectURL(blobData)
+      const aEl = document.createElement('a')
+      aEl.href = url
+      aEl.download = '1.ofd'
+      aEl.click()
+      document.body.removeChild(aEl)
+      console.log("文件下载成功")
     })
-    .catch((error) => {
-      console.log("💬 ⋮ getTableData ⋮ error => ", error)
-      tableData.value = []
+    .catch(err => {
+      console.error("下载失败：", err)
     })
 }
-
-// 监听分页参数的变化
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
-// #endregion
 </script>
 
 <template>
   <div class="page">
 
-    <el-divider content-position="left">网络请求</el-divider>
-    <Children #default="{ render }">
-      {{ render.hitokoto }} - {{ render.from_who ?? '佚名' }}
-    </Children>
+    <el-button type="primary" @click="downloadFile">下载ofd文件</el-button>
 
-    <el-divider content-position="left">自定义图标</el-divider>
-    <div class="icon-item-area">
-      <custom-icon is-local folder="icon" :name="dynamicIconName" :size="24" dynamic />
-      <custom-icon is-local folder="icon" name="beer" fill-color="#ebeee8" hover-color="#d08635" :size="20" />
-      <custom-icon prefix="ic" name="baseline-roundabout-left" fill-color="#b1d5c8" />
-      <custom-icon prefix="proicons" name="apple" />
-      <custom-icon name="flat-color-icons:alarm-clock" />
-    </div>
-
-    <el-divider content-position="left">表格 hooks 示例</el-divider>
-    <div class="table-hooks-example">
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="date" label="Date" width="180" />
-        <el-table-column prop="name" label="Name" width="180" />
-        <el-table-column prop="address" label="Address" width="300" />
-      </el-table>
-      <el-pagination class="table-pagination" background v-model:current-page="paginationData.currentPage"
-        v-model:page-size="paginationData.pageSize" :page-sizes="paginationData.pageSizes"
-        :layout="paginationData.layout" :total="paginationData.total" @current-change="handleCurrentChange"
-        @size-change="handleSizeChange"></el-pagination>
-    </div>
-
-    <el-divider content-position="left">Vue全局挂载 对话框、抽屉、消息提示、消息弹出框、通知，ts可以统一全局API去调用</el-divider>
-
+    <ofdview style="height: 100vh" :file="fileData" :mem="parser" :can-close="true"></ofdview>
   </div>
 </template>
 
@@ -102,7 +40,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
 .page {
   min-height: 100vh;
   width: 60vw;
-  margin: 0 auto;
+  margin: 10px auto 0;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;

@@ -70,7 +70,10 @@ export default defineConfig(({ command, mode }) => {
       strictPort: true,
       open: false,
       proxy: {
-        '^/api/v1': "http://example.com"
+        '^/api/v1': {
+          target: "http://example.com",
+          changeOrigin: true
+        }
       }
     },
     build: {

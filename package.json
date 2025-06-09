@@ -14,6 +14,8 @@
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
     "element-plus": "^2.8.6",
+    "ofdview-vue3": "1.0.31",
+    "parser_x.js": "1.1.68",
     "pinia": "^2.2.5",
     "sass": "1.78.0",
     "vue": "^3.5.12",
