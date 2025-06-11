@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import request from '@/lib/http'
 import Children from './_components/children.vue'
 
 import { judgeHandler } from '@/utils/handler'
@@ -36,24 +37,25 @@ onMounted(() => {
 // #endregion
 
 // #region 分页器 hooks
-const tableData = ref<Array<any>>([])
+const tableData = ref<any[]>([])
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 function getTableData() {
-  fetch('/api/v1/test', { method: "POST", body: JSON.stringify({ current: paginationData.currentPage, limit: paginationData.pageSize }), headers: { 'Content-Type': "application/json" } })
-    .then((response) => {
-      if(!response.ok) {
-        throw new Error("请求失败")
-      }
-      return response.json()
-    })
+  request({
+    url: "/test",
+    method: "post",
+    data: {
+      current: paginationData.currentPage,
+      limit: paginationData.pageSize
+    },
+  })
     .then((res) => {
-      const { records, total } = res.data
+      const { records, total } = res
       tableData.value = records
       paginationData.total = total
     })
     .catch((error) => {
-      console.log("💬 ⋮ getTableData ⋮ error => ", error)
+      console.error("💬 ⋮ getTableData ⋮ error => ", error)
       tableData.value = []
     })
 }
