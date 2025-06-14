@@ -93,6 +93,7 @@ export class VAxios {
 
     // 响应结果拦截器处理
     this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
+      console.log("res => ", res.request.responseType)
       res && axiosCanceler.removePending(res.config)
       if (responseInterceptors && isFunction(responseInterceptors)) {
         res = responseInterceptors(res)

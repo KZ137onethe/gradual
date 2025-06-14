@@ -1,5 +1,6 @@
-import { judgeHandler } from "@/utils/handler"
+import { CreateAxiosOptions } from "@/axios/type"
 import axios, { type AxiosInstance } from "axios"
+import { HttpHandler, respHandler } from "./handler"
 
 type interceptorsHandlerKey = "reqSuccess" | "reqError" | "respSuccess" | "respError"
 
@@ -16,14 +17,12 @@ class HttpEventEmitter {
     ['respError', (v) => Promise.reject(v)]
   ])
 
-  constructor(url: string) {
-    this.http = this.init(url)
+  constructor(options: CreateAxiosOptions) {
+    this.http = this.init(options)
   }
 
-  init(url: string) {
-    const instance = axios.create({
-      baseURL: url
-    })
+  init(options: CreateAxiosOptions) {
+    const instance = axios.create(options)
 
     instance.interceptors.request.use(
       this.reqSuccessHandler,
@@ -69,38 +68,31 @@ class HttpEventEmitter {
   }
 }
 
-// TODO: 加入鉴权
+// TODO: 以插件的方式来加入这些预处理
 function request(config): any {
-  const service = new HttpEventEmitter("http://localhost:5173" + __APP_API_TEST__)
-  service.http.defaults.timeout = 3000
+  // TODO: 加入鉴权
+  const service = new HttpEventEmitter({
+    baseURL: "http://localhost:5173" + __APP_API_TEST__,
+    timeout: 3000
+  })
+  const mergeConfig = Object.assign({}, HttpHandler.defReqConfig, config)
   service.setInterceptorsHandler('reqSuccess', (config) => {
-    config.headers['Content-Type'] = 'application/json'
     return config
   })
   service.setInterceptorsHandler('respSuccess', (repsonse) => {
-    const { data: res, status } = repsonse
-    switch (status) {
-      case 200:
-        return res.data
-      default:
-        return res
-    }
+    const handler = new HttpHandler(repsonse)
+    handler.use(respHandler)
+    return handler._data
   })
   service.setInterceptorsHandler('respError', (error) => {
     const code = error.response.status
-    judgeHandler<number>(code, [
-      [
-        401,
-        () => { }
-      ],
-      [
-        404,
-        () => { }
-      ]
-    ])
+    // TODO: 处理不同的状态码
     return Promise.reject(code)
   })
-  return service.http(config)
+  return service.http(mergeConfig)
 }
 
-export default request
+export {
+  HttpEventEmitter,
+  request
+}

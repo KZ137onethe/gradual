@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import request from '@/lib/http'
+import { request } from '@/lib/http'
 import Children from './_components/children.vue'
 
 import { judgeHandler } from '@/utils/handler'
@@ -41,7 +41,7 @@ const tableData = ref<any[]>([])
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 function getTableData() {
-  request({
+  return request({
     url: "/test",
     method: "post",
     data: {
@@ -50,6 +50,7 @@ function getTableData() {
     },
   })
     .then((res) => {
+      console.log("💬 ⋮ .then ⋮ res => ", res)
       const { records, total } = res
       tableData.value = records
       paginationData.total = total
@@ -62,6 +63,26 @@ function getTableData() {
 
 // 监听分页参数的变化
 watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
+// #endregion
+
+// #region 下载文件示例
+const downloadFile = () => {
+  return request({
+    url: '/7z/novel',
+    method: "post",
+    data: {
+      filename: "1"
+    },
+    responseType: "blob"
+  }).then(({ data, info }) => {
+    const url = URL.createObjectURL(data as Blob)
+    const el = document.createElement('a')
+    el.href = url
+    el.download = info.filename
+    el.click()
+    document.removeChild(el)
+  })
+}
 // #endregion
 </script>
 
@@ -94,6 +115,19 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         :layout="paginationData.layout" :total="paginationData.total" @current-change="handleCurrentChange"
         @size-change="handleSizeChange"></el-pagination>
     </div>
+
+    <el-divider content-position="left">下载文件 示例</el-divider>
+    <el-row style="width: 100%" justify="center">
+      <el-col :span="8">
+        <el-button type="primary" @click="downloadFile">下载7z文件</el-button>
+      </el-col>
+      <el-col :span="8">
+        <el-button type="primary">下载文件</el-button>
+      </el-col>
+      <el-col :span="8">
+        <el-button type="primary">下载文件</el-button>
+      </el-col>
+    </el-row>
 
     <el-divider content-position="left">Vue全局挂载 对话框、抽屉、消息提示、消息弹出框、通知，ts可以统一全局API去调用</el-divider>
 
